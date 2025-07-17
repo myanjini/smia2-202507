@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: license-service
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: "*"
+        exclude:
+          - beans
+  endpoint:
+    health:
+      show-details: always			
+  health:
+    diskspace:
+      enabled: true
