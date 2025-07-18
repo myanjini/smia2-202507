@@ -1,17 +1,10 @@
 spring:
   application:
     name: license-service
-management:
-  endpoints:
-    web:
-      base-path: /
-      exposure:
-        include: "*"
-        exclude:
-          - beans
-  endpoint:
-    health:
-      show-details: always			
-  health:
-    diskspace:
-      enabled: true
+  profiles:
+    active:
+    - dev     
+  config:
+    import: "optional:configserver:http://localhost:8071"
+server:
+  port: 8081

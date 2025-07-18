@@ -1,0 +1,17 @@
+spring:
+   application:
+      name: config-server
+   profiles:
+#     active: native
+      active: git
+   cloud:
+      config:
+         server:
+            native:
+#              search-locations: classpath:/config
+               search-locations: file:///c:\temp\config
+            git:
+               uri: https://github.com/myanjini/spring-config.git
+               search-paths: licenseservice
+server:
+   port: 8071
