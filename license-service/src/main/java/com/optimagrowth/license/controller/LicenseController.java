@@ -27,10 +27,13 @@ public class LicenseController {
     @Autowired
     private LicenseService licenseService;
 
-    @GetMapping(value = "/{licenseId}")
-    public ResponseEntity<License> getLicense(@PathVariable("organizationId") String organizationId,
-            @PathVariable("licenseId") String licenseId) {
-        License license = licenseService.getLicense(licenseId, organizationId);
+    @GetMapping(value = "/{licenseId}/{clientType}")
+    public ResponseEntity<License> getLicense(
+    		@PathVariable("organizationId") String organizationId,
+            @PathVariable("licenseId") String licenseId, 
+            @PathVariable("clientType") String clientType) {
+        License license = licenseService.getLicense(licenseId, organizationId, clientType);
+        /*
         license.add(
                 linkTo(methodOn(LicenseController.class).getLicense(organizationId, license.getLicenseId()))
                         .withSelfRel(),
@@ -40,6 +43,7 @@ public class LicenseController {
                         .withRel("updateLicense"),
                 linkTo(methodOn(LicenseController.class).deleteLicense(organizationId, license.getLicenseId()))
                         .withRel("deleteLicense"));
+        */
         return ResponseEntity.ok(license);
     }
 
