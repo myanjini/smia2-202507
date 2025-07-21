@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.optimagrowth.license.model.Organization;
 
-@FeignClient("organization-serivce")
+@FeignClient("organization-service")
 public interface OrganizationFeignClient {
 	@GetMapping(value = "/v1/organization/{organizationId}",
 				consumes = "application/json")
