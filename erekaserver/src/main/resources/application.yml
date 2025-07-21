@@ -1,0 +1,5 @@
+spring:
+   application:
+      name: ereka-server
+   config:
+      import: "optional:configserver:http://localhost:8071"      

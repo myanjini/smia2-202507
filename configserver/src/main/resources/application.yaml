@@ -12,7 +12,9 @@ spring:
                search-locations: file:///c:\temp\config
             git:
                uri: https://github.com/myanjini/spring-config.git
-               search-paths: licenseservice
+               search-paths: 
+                  - licenseservice
+                  - eurekaserver
 server:
    port: 8071
 encrypt:
