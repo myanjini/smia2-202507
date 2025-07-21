@@ -15,6 +15,7 @@ spring:
                search-paths: 
                   - licenseservice
                   - eurekaserver
+                  - organizationservice
 server:
    port: 8071
 encrypt:
