@@ -24,7 +24,7 @@ public class LicenseServiceApplication {
 	
 	// Spring MVC에서 클라이언트의 로케일(지역 설정)을 결정하고 유지하는 역할
 	@Bean
-	public LocaleResolver localeResolver() {
+	public LocaleResolver customLocaleResolver() {
 		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
 		localeResolver.setDefaultLocale(Locale.US);
 		return localeResolver;
