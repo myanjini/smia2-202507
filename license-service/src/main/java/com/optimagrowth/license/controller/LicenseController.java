@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.optimagrowth.license.model.License;
 import com.optimagrowth.license.service.LicenseService;
+import com.optimagrowth.license.utils.UserContextHolder;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping(value = "v1/organization/{organizationId}/license")
 public class LicenseController {
@@ -28,6 +31,7 @@ public class LicenseController {
 
     @GetMapping(value = "/")
     public List<License> getLicenses(@PathVariable("organizationId") String organizationId) throws TimeoutException {
+    	log.info("LicenseController Correlation ID: {}", UserContextHolder.getContext().getCorrelationId());
     	return licenseService.getLicensesByOrganization(organizationId);
     }
     
@@ -36,18 +40,9 @@ public class LicenseController {
     		@PathVariable("organizationId") String organizationId,
             @PathVariable("licenseId") String licenseId, 
             @PathVariable("clientType") String clientType) {
+    	log.info("LicenseController Correlation ID: {}", UserContextHolder.getContext().getCorrelationId());
+    	
         License license = licenseService.getLicense(licenseId, organizationId, clientType);
-        /*
-        license.add(
-                linkTo(methodOn(LicenseController.class).getLicense(organizationId, license.getLicenseId()))
-                        .withSelfRel(),
-                linkTo(methodOn(LicenseController.class).createLicense(organizationId, license, null))
-                        .withRel("createLicense"),
-                linkTo(methodOn(LicenseController.class).updateLicense(organizationId, license))
-                        .withRel("updateLicense"),
-                linkTo(methodOn(LicenseController.class).deleteLicense(organizationId, license.getLicenseId()))
-                        .withRel("deleteLicense"));
-        */
         return ResponseEntity.ok(license);
     }
 

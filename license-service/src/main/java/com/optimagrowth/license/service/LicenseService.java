@@ -17,10 +17,9 @@ import com.optimagrowth.license.repository.LicenseRepository;
 import com.optimagrowth.license.service.client.OrganizationDiscoveryClient;
 import com.optimagrowth.license.service.client.OrganizationFeignClient;
 import com.optimagrowth.license.service.client.OrganizationRestTemplateClient;
+import com.optimagrowth.license.utils.UserContextHolder;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -54,21 +53,20 @@ public class LicenseService {
     
     private int count = 0;
     
-    @Retry(name = "retryLicenseService", fallbackMethod = "buildFallbackLicenseList")
-    // @Bulkhead(name = "bulkheadLicenseService", type = Bulkhead.Type.THREADPOOL, fallbackMethod = "buildFallbackLicenseList")
-    @CircuitBreaker(name = "licenseService")
-    @RateLimiter(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
+    @CircuitBreaker(name = "licenseService", fallbackMethod = "buildFallbackLicenseList")
     public List<License> getLicensesByOrganization(String organizationId) throws TimeoutException {
+    	log.info("LicenseSerivce Correlation ID: {}", UserContextHolder.getContext().getCorrelationId());
+    	
     	// randomlyRunLong();
-    	count ++;
-    	
-    	log.info(">>> getLicensesByOrganization ... " + count);
-    	try {
-    		Thread.sleep(3000);
-    		throw new java.util.concurrent.TimeoutException();
-    	} catch (InterruptedException e) { }
-    	
-    	log.info(">>> findByOrganizationId ... " + count);
+//    	count ++;
+//    	
+//    	log.info(">>> getLicensesByOrganization ... " + count);
+//    	try {
+//    		Thread.sleep(3000);
+//    		throw new java.util.concurrent.TimeoutException();
+//    	} catch (InterruptedException e) { }
+//    	
+//    	log.info(">>> findByOrganizationId ... " + count);
     	
     	return licenseRepository.findByOrganizationId(organizationId);
     }
@@ -132,6 +130,8 @@ public class LicenseService {
     
     
     public License getLicense(String licenseId, String organizationId) {
+    	log.info("LicenseSerivce Correlation ID: {}", UserContextHolder.getContext().getCorrelationId());
+    	
         License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId);
         if (license == null) {
             throw new IllegalArgumentException(

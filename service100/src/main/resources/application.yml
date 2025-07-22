@@ -1,0 +1,20 @@
+const:
+    service-owner: crpark
+spring:
+    application:
+        name: service100
+#    profiles:
+#        active:
+#            - dev     
+    config:
+        import: "optional:configserver:http://59.29.224.126:8888"
+        #import: "optional:configserver:http://59.29.224.152:8080"
+eureka:
+    client:
+        registerWithEureka: true
+        fetchRegistry: true
+        serviceUrl:
+            defaultZone: http://59.29.224.126:9999/eureka/
+            #defaultZone: http://59.29.224.152:9090/eureka/
+    instance: 
+        preferIpAddress: true 
