@@ -21,3 +21,7 @@ eureka:
          defaultZone: http://localhost:8070/eureka/
    instance:
       preferIpAddress: true
+      
+token:
+   expirationTime: 86400000
+   secret: "My JWTToken's Secret is p@ssw0rd"
