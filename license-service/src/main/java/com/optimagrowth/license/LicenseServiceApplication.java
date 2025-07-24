@@ -1,5 +1,7 @@
 package com.optimagrowth.license;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;
@@ -12,6 +14,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import com.optimagrowth.license.utils.UserContextInterceptor;
 
 @EnableFeignClients
 @EnableDiscoveryClient
@@ -43,6 +47,14 @@ public class LicenseServiceApplication {
 	@LoadBalanced
 	@Bean
 	public RestTemplate restTemplate() {
-		return new RestTemplate();
+		RestTemplate template = new RestTemplate();
+		List interceptors = template.getInterceptors();
+		if (interceptors == null) {
+			template.setInterceptors(Collections.singletonList(new UserContextInterceptor()));
+		} else {
+			interceptors.add(new UserContextInterceptor());
+			template.setInterceptors(interceptors);
+		}
+		return template;
 	}
 }
