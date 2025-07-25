@@ -1,5 +1,7 @@
 package com.optimagrowth.gateway.filters;
 
+import java.util.List;
+
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
@@ -23,13 +25,17 @@ public class AuthFilter implements GlobalFilter {
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		String token = exchange.getRequest().getHeaders().getFirst("Authorization");
 		String memberId = exchange.getRequest().getHeaders().getFirst("memberid");
-
+	
+		log.debug(token);
+		log.debug(memberId);
+		
 		if (token == null || memberId == null) {
 			exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
 			return exchange.getResponse().setComplete();
 		}
 		
 		return authServiceClient.validateToken(token, memberId).flatMap(message -> {
+			log.debug(message);
 			if ("VALID".equals(message)) {
 				return chain.filter(exchange);
 			} else {

@@ -25,6 +25,8 @@ public class ResponseFilter {
 				log.debug("Adding the correlation id to the outbound headers. {}", correlationId);
 				exchange.getResponse().getHeaders().add(FilterUtils.CORRELATION_ID, correlationId);
 				log.debug("Completing outgoing request for {}.", exchange.getRequest().getURI());
+				
+				// exchange.getResponse().getHeaders().add("Access-Control-Allow-Origin", "http://localhost:5173");
 			}));
 		};
 	}
